@@ -17,15 +17,14 @@ User Function TrocaRPO()
 	Private cCONF := "trocarpo.conf"
 	Private cCONT := "controle.conf"
 	Private cPathConf := "\trocarpo\"
+	Private cNomeRPO := ""
 	Private cArquivos := ""
-/*
-	aAdd(aPergs,{1,"IP do Servidor"		,Space(15),"@!",'.T.',,'.T.',40,.F.})
-	aAdd(aPergs,{1,"Porta WS"		    ,Space(06),"@!",'.T.',,'.T.',40,.F.})
-	aAdd(aPergs,{1,"Porta RPC"		    ,Space(06),"@!",'.T.',,'.T.',40,.F.})
-	aAdd(aPergs,{1,"Código do Pai"      ,Space(03),"@!",'.T.',"MD4",'.T.',40,.F.})
-	aAdd(aPergs,{1,"Código do Filho"    ,Space(03),"@!",'.T.',"MD4",'.T.',40,.F.})
-	aAdd(aPergs,{1,"Nome do Ambiente"   ,Space(20),"@!",'.T.',"",'.T.',40,.F.})
-*/
+
+	If cReleaserpo > "12.1.025"
+		cNomeRPO := "custom.rpo"
+	Else
+		cNomeRPO := "tttp"+cVersao+".rpo"
+	EndIf
 
 	aAdd(aPergs,{6,"RPO Homologado"		,PADR("",150),"",,"",85 ,.T.,"Arquivo RPO|*.RPO","",GETF_LOCALHARD})
 	aAdd(aPergs,{6,"Caminho dos Repositórios"	,PADR("",150),"",,"",85 ,.T.,"","",GETF_LOCALHARD+GETF_RETDIRECTORY})
@@ -85,7 +84,7 @@ User Function TrocaRPO()
 				EndIf
 
 				cDirRPO := AllTrim(MV_PAR03) + StrZero(Val(aCont[1]),2)
-				__CopyFile(AllTrim(MV_PAR01) , AllTrim(MV_PAR02) + cDirRPO+"\tttp120.rpo")
+				__CopyFile(AllTrim(MV_PAR01) , AllTrim(MV_PAR02) + cDirRPO+"\"+cNomeRPO)
 
 			Else
 				cDiretorio := AllTrim(MV_PAR02) +  AllTrim(MV_PAR03) + StrZero(Val(aCont[1]),2)
@@ -94,7 +93,7 @@ User Function TrocaRPO()
 				EndIf
 
 				cDirRPO := AllTrim(MV_PAR03) + StrZero(Val(aCont[1]),2)
-				__CopyFile(AllTrim(MV_PAR01) , AllTrim(MV_PAR02) + cDirRPO+"\tttp120.rpo")
+				__CopyFile(AllTrim(MV_PAR01) , AllTrim(MV_PAR02) + cDirRPO+"\"+cNomeRPO)
 				GrvArq(cPathConf+cCONT,{ Soma1(aCont[1]) } ) // Controle do número de rpo.
 
 			EndIf
@@ -109,8 +108,8 @@ User Function TrocaRPO()
 			EndIf
 
 			cDirRPO := AllTrim(MV_PAR03) + StrZero(1,2)
-			__CopyFile(AllTrim(MV_PAR01) , AllTrim(MV_PAR02) + cDirRPO+"\tttp120.rpo")
-				GrvArq(cPathConf+cCONT,{ Soma1(aCont[1]) } ) // Controle do número de rpo.
+			__CopyFile(AllTrim(MV_PAR01) , AllTrim(MV_PAR02) + cDirRPO+"\"+cNomeRPO)
+			GrvArq(cPathConf+cCONT,{ Soma1(aCont[1]) } ) // Controle do número de rpo.
 
 		EndIf
 
